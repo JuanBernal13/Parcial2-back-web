@@ -8,10 +8,9 @@ export const TypeOrmTestingConfig = () => [
    type: 'sqlite',
    database: ':memory:',
    dropSchema: true,
-   entities: [], // Incluye solo la entidad Aerolinea
+   entities: [], 
    synchronize: true,
    keepConnectionAlive: true
  }),
- TypeOrmModule.forFeature([]), // Incluye solo la entidad Aerolinea en forFeature
+ TypeOrmModule.forFeature([]), 
 ];
-/* archivo src/shared/testing-utils/typeorm-testing-config.ts */
