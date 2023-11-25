@@ -34,13 +34,16 @@ export class AlbumService {
     async delete(id: string): Promise<void> {
         const album: AlbumEntity = await this.albumRepository.findOne({where: {id}, relations: ["tracks"]});
         
-        if (!album)
-          throw new BusinessLogicException("El album con el id, no fue encontrado", BusinessError.NOT_FOUND);
-
-        if (album.tracks.length > 0)
-          throw new BusinessLogicException("El album tiene tracks asosicados, no puede ser eliminado", BusinessError.PRECONDITION_FAILED);
+        if (!album) {
+            throw new BusinessLogicException("El album con el id, no fue encontrado", BusinessError.NOT_FOUND);
+        }
+    
+        if (  album.tracks.length > 0) {
+            throw new BusinessLogicException("El album tiene tracks asociados, no puede ser eliminado", BusinessError.PRECONDITION_FAILED);
+        }
       
         await this.albumRepository.remove(album);
     }
+    
 }
 

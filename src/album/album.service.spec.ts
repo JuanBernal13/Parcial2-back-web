@@ -61,20 +61,57 @@ describe('AlbumService', () => {
     expect(storedAlbum.name).toEqual(newAlbum.name);
     expect(storedAlbum.description).toEqual(newAlbum.description);
   });
-
-  it('Crear excepcion para cuando se crea album con descripcion vacia', async () => {
+     it('Crear excepcion para cuando se crea album con descripcion vacia', async () => {
     const album: Partial<AlbumEntity> = {
       name: faker.lorem.sentence(),
       description: '', 
       releaseDate: faker.date.past(),
       coverImage: faker.image.url(),
       tracks: [], 
-      performers: [],
-    };
+      performers: [],    };
   
     await expect(service.create(album as AlbumEntity)).rejects.toHaveProperty(
-      "message", "El nombre y descripcion no puede ser vacia"
-    );
+      "message", "El nombre y descripcion no puede ser vacia"    );
+  });
+
+  it('Se debe eliminar un album', async () => {
+    const album: AlbumEntity =  albumList[0];
+    await service.delete(album.id);
+  
+    const deletedAlbum: AlbumEntity = await repository.findOne({ where: { id: album.id } })
+    expect(deletedAlbum).toBeNull();
+  });
+ 
+  
+
+  it('Excepcion por eliminacion de album con id invalido', async () => {
+    const album = albumList[0];
+    await service.delete(album.id);
+      await expect(service.delete("0")).rejects.toHaveProperty("message", "El album con el id, no fue encontrado");
   });
   
+  
+  
+  it('FindAll de los albumes', async () => {
+    const albums: AlbumEntity[] = await service.findAll();
+    expect(albums).not.toBeNull();
+    expect(albums).toHaveLength(albumList.length);
+  });
+
+  it('FindOne de algun ambul ', async () => {
+    const storedAlbum: AlbumEntity = albumList[0];
+    const album: AlbumEntity = await service.findOne(storedAlbum.id);
+    expect(album).not.toBeNull();
+    expect(album.name).toEqual(storedAlbum.name)
+    expect(album.description).toEqual(storedAlbum.description)
+    expect(album.releaseDate).toEqual(storedAlbum.releaseDate)
+    expect(album.coverImage).toEqual(storedAlbum.coverImage)
+
+    
+  });
+  it('Throw excepcion del find one de un album invalido', async () => {
+    await expect(() => service.findOne("0")).rejects.toHaveProperty("message", "El album con el id dado, no fue encontrado")
+  });
+
+
 });
