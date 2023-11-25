@@ -4,7 +4,7 @@ import { AlbumEntity } from '../album/album.entity';
 
 @Entity()
 export class TrackEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('increment')
   id: string;
 
   @Column({ length: 500 })
