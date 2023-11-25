@@ -12,8 +12,5 @@ export class TrackDto {
   @Min(0)
   duration: number;
 
-  
-   @IsNotEmpty()
-   @IsString()
-   albumId: string;
+
 }

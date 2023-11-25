@@ -5,7 +5,7 @@ import { TrackEntity } from './track.entity';
 import { TrackDto } from './trackdto';
 import { plainToInstance } from 'class-transformer';
 
-@Controller('tracks')
+@Controller('albums/:albumId/tracks')
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
@@ -19,7 +19,7 @@ export class TrackController {
     return this.trackService.findOne(id);
   }
 
-  @Post(':albumId')
+  @Post()
   async create(@Param('albumId') albumId: string, @Body() trackDto: TrackDto) {
     const trackData: TrackEntity = plainToInstance(TrackEntity, trackDto);
     return await this.trackService.create(albumId, trackData);

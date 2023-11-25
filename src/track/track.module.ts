@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TrackEntity } from './track.entity';
 import { TrackService } from './track.service';
 import { AlbumModule } from '../album/album.module'; 
+import { TrackController } from './track.controller';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AlbumModule } from '../album/album.module';
   ],
   providers: [TrackService],
   exports: [TypeOrmModule], 
+  controllers:[TrackController]
 
 })
 export class TrackModule {}
